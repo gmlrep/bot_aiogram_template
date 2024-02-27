@@ -1,0 +1,13 @@
+[Unit] Description={project_name}
+After=network.target
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/new_bot/{project_name}
+ExecStart=/home/new_bot/{project_name}/venv/bin/python -m main
+KillMode=process
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
