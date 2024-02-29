@@ -5,10 +5,10 @@ from sqlalchemy import Integer, Column, String, BigInteger, ForeignKey, select, 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 from bot.db.models import AbstractModel, User
-
+from bot.db.config import settings
 # async_engine = create_engine("sqlite+aiosqlite:///:memory:", echo=True)
 # async_engine = create_async_engine("sqlite+aiosqlite:///database.db", echo=True)
-async_engine = create_async_engine("sqlite+aiosqlite:///db/database.db", echo=True)
+async_engine = create_async_engine(settings.db_url, echo=True)
 
 async_session = async_sessionmaker(async_engine, expire_on_commit=True)
 
@@ -43,3 +43,6 @@ async def update_username(user_id, username):
             await session.commit()
         else:
             return
+
+
+asyncio.run(insert_user(user_id=1234, username='2345tgvcd', fullname='23455ujbv'))
