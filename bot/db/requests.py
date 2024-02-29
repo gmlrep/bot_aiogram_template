@@ -14,8 +14,8 @@ async_session = async_sessionmaker(async_engine, expire_on_commit=True)
 
 
 async def insert_user(user_id, username, fullname):
-    async with async_engine.begin() as conn:
-        await conn.run_sync(AbstractModel.metadata.create_all)
+    # async with async_engine.begin() as conn:
+    #     await conn.run_sync(AbstractModel.metadata.create_all)
     async with async_session() as session:
         resp = await session.execute(select(User.user_id).where(User.user_id == user_id))
         resp = resp.scalar()
