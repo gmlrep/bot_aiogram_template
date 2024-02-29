@@ -3,13 +3,12 @@ import logging
 import os
 
 from aiogram import Bot, Dispatcher, F
-from aiogram.enums.parse_mode import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 from dotenv import load_dotenv
 from bot.fluent_loader import get_fluent_localization
 
-from bot.usermode import user_router
-from bot.adminmode import admin_router
+from bot.handlers.usermode import user_router
+from bot.handlers.adminmode import admin_router
 
 
 # Loading localization for bot
