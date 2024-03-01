@@ -27,7 +27,7 @@ async def insert_user(user_id, username, fullname):
             await update_username(user_id=user_id, username=username)
 
 
-async def count_users():
+async def count_users() -> int:
     async with async_session() as session:
         response = await session.execute(select(User.username))
         count = len(response.scalars().all())
