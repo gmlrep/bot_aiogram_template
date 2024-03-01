@@ -44,5 +44,4 @@ async def update_username(user_id, username):
         else:
             return
 
-
 # asyncio.run(insert_user(user_id=1234, username='2345tgvcd', fullname='23455ujbv'))
