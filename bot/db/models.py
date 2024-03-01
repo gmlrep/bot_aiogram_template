@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import create_engine, Integer, String, BigInteger, ForeignKey, func, text
+from sqlalchemy import create_engine, Integer, String, BigInteger, ForeignKey, func
 from sqlalchemy.orm import Session, as_declarative, declared_attr, Mapped, mapped_column, sessionmaker
 
 

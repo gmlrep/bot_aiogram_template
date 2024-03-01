@@ -1,0 +1,11 @@
+#### Bot-specific settings ####
+bot:
+  # Bot's token. Obtain from https://t.me/BotFather
+  token: "6536229029:AAEoVcpOg6bOlZdUVNzGwJP7OzrmoVtW0sQ"
+  # List user_id of administrators
+  admin_list_id: 3123906170,456787
+  # Chosen language of the bot
+  # Actually it's the name of directory with locale files.
+  language: "ru"
+  # Time in seconds for next event
+  throttling: 2

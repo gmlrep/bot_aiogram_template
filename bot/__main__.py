@@ -1,28 +1,20 @@
 import asyncio
 import logging
-import os
 
 from aiogram import Bot, Dispatcher, F
 from aiogram.fsm.storage.memory import MemoryStorage
-from dotenv import load_dotenv
 from bot.fluent_loader import get_fluent_localization
 
 from bot.handlers.usermode import user_router
 from bot.handlers.adminmode import admin_router
-
-
-# Loading localization for bot
-l10n = get_fluent_localization('ru')
-
-load_dotenv()
-bot = Bot(token=os.getenv('BOT_TOKEN'))
-dp = Dispatcher(storage=MemoryStorage(), l10n=l10n)
-
-# Transform str in int
-admin_list = list(map(int, os.getenv('ADMIN_LIST_ID').split(',')))
+from bot.middlewares.throttling import ThrottlingMiddleware
+from bot.config_reader import parse_settings, Settings
 
 
 async def main():
+
+    config: Settings = parse_settings()
+    admin_list = list(map(int, config.bot.admin_list_id.split(',')))
 
     logging.basicConfig(
         level=logging.INFO,
@@ -30,12 +22,23 @@ async def main():
         format="%(asctime)s - %(message)s"
     )
 
+    # Loading localization for bot
+    l10n = get_fluent_localization(config.bot.language)
+
+    # bot = Bot(token=os.getenv('BOT_TOKEN'))
+    bot = Bot(token=config.bot.token.get_secret_value())
+    # Create Dispatcher
+    dp = Dispatcher(storage=MemoryStorage(), l10n=l10n)
+
     # Add admin filter to admin_router and user_router
     admin_router.message.filter(F.from_user.id.in_(admin_list))
     user_router.message.filter(~F.from_user.id.in_(admin_list))
 
     dp.include_router(user_router)
     dp.include_router(admin_router)
+
+    # Registration middleware on throttling
+    dp.message.middleware(ThrottlingMiddleware())
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
