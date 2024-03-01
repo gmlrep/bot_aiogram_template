@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session, as_declarative, declared_attr, Mapped, mappe
 
 
 @as_declarative()
-class AbstractModel:
+class AbstractModel(ABC):
     id: Mapped[int] = mapped_column(Integer, autoincrement=True, primary_key=True)
 
     # Называет таблицы как классы
@@ -16,10 +16,11 @@ class AbstractModel:
 
 
 class User(AbstractModel):
-    user_id: Mapped[int] = mapped_column(BigInteger, unique=True)
-    username: Mapped[str] = mapped_column(unique=True)
-    fullname: Mapped[str] = mapped_column()
-    start_date: Mapped[datetime.datetime] = mapped_column(server_default=func.now())
+    #Примеры создания столбцов
+    #user_id: Mapped[int] = mapped_column(BigInteger, unique=True)
+    #username: Mapped[str] = mapped_column(unique=True)
+    #fullname: Mapped[str] = mapped_column()
+    #start_date: Mapped[datetime.datetime] = mapped_column(server_default=func.now())
 
 
 # class Address(AbstractModel):
