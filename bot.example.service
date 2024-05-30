@@ -3,8 +3,8 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/home/new_bot/{project_name}
-ExecStart=/home/new_bot/{project_name}/venv/bin/python -m bot
+WorkingDirectory=/home/your_directory/{project_name}
+ExecStart=/home/your_directory/{project_name}/venv/bin/python -m bot
 KillMode=process
 Restart=always
 RestartSec=10

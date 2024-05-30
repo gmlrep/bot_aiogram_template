@@ -8,13 +8,10 @@ from bot.fluent_loader import get_fluent_localization
 from bot.handlers.usermode import user_router
 from bot.handlers.adminmode import admin_router
 from bot.middlewares.throttling import ThrottlingMiddleware
-from bot.config_reader import parse_settings, Settings
+from bot.db.config import settings
 
 
 async def main():
-
-    config: Settings = parse_settings()
-    admin_list = list(map(int, config.bot.admin_list_id.split(',')))
 
     logging.basicConfig(
         level=logging.INFO,
@@ -23,16 +20,15 @@ async def main():
     )
 
     # Loading localization for bot
-    l10n = get_fluent_localization(config.bot.language)
+    l10n = get_fluent_localization(settings.bot.language)
 
-    # bot = Bot(token=os.getenv('BOT_TOKEN'))
-    bot = Bot(token=config.bot.token.get_secret_value())
+    bot = Bot(token=settings.bot.token)
     # Create Dispatcher
     dp = Dispatcher(storage=MemoryStorage(), l10n=l10n)
 
     # Add admin filter to admin_router and user_router
-    admin_router.message.filter(F.from_user.id.in_(admin_list))
-    user_router.message.filter(~F.from_user.id.in_(admin_list))
+    admin_router.message.filter(F.from_user.id.in_(settings.bot.admin_list))
+    user_router.message.filter(~F.from_user.id.in_(settings.bot.admin_list))
 
     dp.include_router(user_router)
     dp.include_router(admin_router)

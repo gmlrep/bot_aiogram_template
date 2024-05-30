@@ -18,4 +18,3 @@ async def start_handler(message: Message, l10n: FluentLocalization):
                       username=message.from_user.username,
                       fullname=message.from_user.full_name)
     await message.answer(l10n.format_value('start'))
-    print(type(message.from_user.id))

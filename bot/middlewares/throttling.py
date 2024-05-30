@@ -1,18 +1,15 @@
 from typing import Any, Awaitable, Callable, Dict
 
 from aiogram import BaseMiddleware
-from aiogram.dispatcher.flags import get_flag
 from aiogram.types import Message
 from cachetools import TTLCache
 
-from bot.config_reader import parse_settings, Settings
-
-config: Settings = parse_settings()
+from bot.db.config import settings
 
 
 class ThrottlingMiddleware(BaseMiddleware):
 
-    def __init__(self, time_limit: int = config.bot.throttling):
+    def __init__(self, time_limit: int = settings.bot.throttling):
         self.limit = TTLCache(maxsize=10000, ttl=time_limit)
 
     async def __call__(
