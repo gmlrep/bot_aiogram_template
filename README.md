@@ -11,12 +11,16 @@
 1. Клонируйте репозиторий;
 2. Перейдите (`cd`) в клонированный каталог и создайте виртуальное окружение Python (Virtual environment, venv);
 3. Активируйте venv и установите все зависимости из `requirements.txt`;
-4. Скопируйте `settings.example.yml` под именем `settings.yml`, откройте его и заполните переменные;
-5. Внутри активированного venv: `python -m main`.
+4. Скопируйте `.env-example` под именем `.env`, откройте его и заполните переменные;
+5. Произведите миграцию базы данных через alembic:
+```
+alembic upgrade head
+```
+6. Внутри активированного venv: `python -m bot`.
 ### Загрузка на сервер
 1. Выполните шаги 1-4 из раздела "Протестировать на своем локальном сервере" выше;
 2. Скопируйте `bot.example.service` в `{project_bot}.service`, откройте и отредактируйте переменные `WorkingDirectory`,
  `ExecStart` и `Description`;
 3. Скопируйте (или создайте симлинк) файла службы в каталог `/etc/systemd/system/`;
 4. Активируйте сервис и запустите его: `sudo systemctl enable {project_bot}`;
-5. Проверьте, что сервис запустился: `systemctcl status {project_bot}` (можно без root-прав).
+5. Проверьте, что сервис запустился: `sudo systemctcl status {project_bot}`.
