@@ -19,7 +19,11 @@ class BotSettings(BaseModel):
 
 
 class BbSettings(BaseModel):
-    db_url: str = f"sqlite+aiosqlite:///{BASE_DIR}/database.db"
+
+    @property
+    def db_url(self) -> str:
+        return f"sqlite+aiosqlite:///{BASE_DIR}/database.db"
+
     echo: bool = False
 
 

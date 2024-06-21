@@ -6,7 +6,7 @@ from bot.db.database import async_session
 from bot.db.models import User
 
 
-async def insert_user(user_id, username, fullname):
+async def insert_user(user_id: int, username: str, fullname: str) -> None:
     async with async_session() as session:
         resp = await session.execute(select(User.user_id).filter_by(user_id=user_id))
         resp = resp.scalar()
@@ -25,7 +25,7 @@ async def count_users() -> int:
         return count
 
 
-async def update_username(user_id, username):
+async def update_username(user_id: int, username: str) -> None:
     async with async_session() as session:
         resp = await session.execute(select(User.username).filter_by(user_id=user_id))
         resp = resp.scalar()
